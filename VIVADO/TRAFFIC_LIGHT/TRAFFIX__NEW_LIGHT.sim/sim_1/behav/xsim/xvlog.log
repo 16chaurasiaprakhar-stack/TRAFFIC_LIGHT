@@ -1,0 +1,6 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/prakh/.Xilinx/TRAFFIX__NEW_LIGHT/TRAFFIX__NEW_LIGHT.srcs/sources_1/imports/Downloads/traffic_fsm.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module traffic_fsm
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/prakh/.Xilinx/TRAFFIX__NEW_LIGHT/TRAFFIX__NEW_LIGHT.srcs/sim_1/imports/Downloads/tb_traffic_fsm.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_traffic_fsm
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/prakh/.Xilinx/TRAFFIX__NEW_LIGHT/TRAFFIX__NEW_LIGHT.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
