@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1790760520">
+  <File Type="ROUTE-BUS-SKEW" Name="traffic_fsm_bus_skew_routed.rpt"/>
+  <File Type="PA-DCP" Name="traffic_fsm.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="traffic_fsm_routed_bb.dcp"/>
+  <File Type="OPT-UTIL" Name="traffic_fsm_utilization_opted.rpt"/>
+  <File Type="ROUTE-PWR" Name="traffic_fsm_power_routed.rpt"/>
+  <File Type="PA-TCL" Name="traffic_fsm.tcl"/>
+  <File Type="INIT-TIMING" Name="traffic_fsm_timing_summary_init.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="traffic_fsm_power_summary_routed.pb"/>
+  <File Type="OPT-RQA-PB" Name="traffic_fsm_rqa_opted.pb"/>
+  <File Type="REPORTS-TCL" Name="traffic_fsm_reports.tcl"/>
+  <File Type="ROUTE-TIMING-PB" Name="traffic_fsm_timing_summary_routed.pb"/>
+  <File Type="OPT-UTIL-PB" Name="traffic_fsm_utilization_opted.pb"/>
+  <File Type="OPT-DCP" Name="traffic_fsm_opt.dcp"/>
+  <File Type="OPT-DRC" Name="traffic_fsm_drc_opted.rpt"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="traffic_fsm_methodology_drc_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="traffic_fsm.hwdef"/>
+  <File Type="OPT-TIMING" Name="traffic_fsm_timing_summary_opted.rpt"/>
+  <File Type="PWROPT-DCP" Name="traffic_fsm_pwropt.dcp"/>
+  <File Type="PWROPT-DRC" Name="traffic_fsm_drc_pwropted.rpt"/>
+  <File Type="NOC_TRAFFIC_SPEC_FILE" Name="traffic_fsm.nts"/>
+  <File Type="PWROPT-TIMING" Name="traffic_fsm_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="traffic_fsm_placed.dcp"/>
+  <File Type="PLACE-IO" Name="traffic_fsm_io_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="traffic_fsm_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL" Name="traffic_fsm_utilization_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="traffic_fsm_utilization_placed.pb"/>
+  <File Type="PLACE-CTRL" Name="traffic_fsm_control_sets_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="traffic_fsm_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="traffic_fsm_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PLACE-TIMING" Name="traffic_fsm_timing_summary_placed.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="traffic_fsm_power_routed.rpx"/>
+  <File Type="PLACE-RQA-PB" Name="traffic_fsm_rqa_placed.pb"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="traffic_fsm_postplace_pwropt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="traffic_fsm_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="traffic_fsm_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="traffic_fsm_drc_physopted.rpt"/>
+  <File Type="PHYSOPT-TIMING" Name="traffic_fsm_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-UTIL" Name="traffic_fsm_utilization_routed.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="traffic_fsm_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="traffic_fsm_routed.dcp"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="traffic_fsm_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-UTIL-PB" Name="traffic_fsm_utilization_routed.pb"/>
+  <File Type="ROUTE-DRC" Name="traffic_fsm_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="traffic_fsm_drc_routed.pb"/>
+  <File Type="ROUTE-DRC-RPX" Name="traffic_fsm_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="traffic_fsm_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="traffic_fsm_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="traffic_fsm_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-RQS-PB" Name="traffic_fsm_rqs_routed.pb"/>
+  <File Type="ROUTE-STATUS" Name="traffic_fsm_route_status.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="traffic_fsm_route_status.pb"/>
+  <File Type="ROUTE-TIMING-RPX" Name="traffic_fsm_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-SIMILARITY" Name="traffic_fsm_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="traffic_fsm_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="traffic_fsm_bus_skew_routed.pb"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="traffic_fsm_bus_skew_routed.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="traffic_fsm_postroute_physopt.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="traffic_fsm_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="traffic_fsm_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="traffic_fsm_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="traffic_fsm_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="traffic_fsm_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="traffic_fsm_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="traffic_fsm_bus_skew_postroute_physopted.rpx"/>
+  <File Type="NOC_SOLUTION_FILE" Name="traffic_fsm.ncr"/>
+  <File Type="BG-BIT" Name="traffic_fsm.bit"/>
+  <File Type="BG-BIN" Name="traffic_fsm.bin"/>
+  <File Type="BITSTR-MSK" Name="traffic_fsm.msk"/>
+  <File Type="BITSTR-RBT" Name="traffic_fsm.rbt"/>
+  <File Type="BITSTR-NKY" Name="traffic_fsm.nky"/>
+  <File Type="BITSTR-BMM" Name="traffic_fsm_bd.bmm"/>
+  <File Type="BITSTR-MMI" Name="traffic_fsm.mmi"/>
+  <File Type="PDI-FILE" Name="traffic_fsm.pdi"/>
+  <File Type="BOOT-PDI-FILE" Name="traffic_fsm_boot.pdi"/>
+  <File Type="PL-PDI-FILE" Name="traffic_fsm_pld.pdi"/>
+  <File Type="RCFI_FILE" Name="traffic_fsm.rcfi"/>
+  <File Type="CFI_FILE" Name="traffic_fsm.cfi"/>
+  <File Type="RNPI_FILE" Name="traffic_fsm.rnpi"/>
+  <File Type="RCDO-FILE" Name="traffic_fsm.rcdo"/>
+  <File Type="MARKER-RNPI-FILE" Name="traffic_fsm_markers.rnpi"/>
+  <File Type="MARKER-RCDO-FILE" Name="traffic_fsm_markers.rcdo"/>
+  <File Type="BOOT_RNPI_FILE" Name="traffic_fsm_boot.rnpi"/>
+  <File Type="BOOT_MARKER_RNPI_FILE" Name="traffic_fsm_boot_markers.rnpi"/>
+  <File Type="PL_RNPI_FILE" Name="traffic_fsm_pld.rnpi"/>
+  <File Type="PL_MARKER_RNPI_FILE" Name="traffic_fsm_pld_markers.rnpi"/>
+  <File Type="PL_MASK_RNPI_FILE" Name="traffic_fsm_pld_mask.rnpi"/>
+  <File Type="PL_SHUTDOWN_RNPI_FILE" Name="traffic_fsm_pld_shutdown.rnpi"/>
+  <File Type="PL_UNMASK_RNPI_FILE" Name="traffic_fsm_pld_unmask.rnpi"/>
+  <File Type="PL-RCDO-FILE" Name="traffic_fsm_pld.rcdo"/>
+  <File Type="PL-CLEAR-RCDO-FILE" Name="traffic_fsm_pld_clear.rcdo"/>
+  <File Type="PL_MARKER_RCDO_FILE" Name="traffic_fsm_pld_markers.rcdo"/>
+  <File Type="PL_MASK_RCDO_FILE" Name="traffic_fsm_pld_mask.rcdo"/>
+  <File Type="PL_UNMASK_MARKER_RCDO_FILE" Name="traffic_fsm_pld_unmask_markers.rcdo"/>
+  <File Type="PL_UNMASK_RCDO_FILE" Name="traffic_fsm_pld_unmask.rcdo"/>
+  <File Type="NPI_FILE" Name="traffic_fsm.npi"/>
+  <File Type="RBD_FILE" Name="traffic_fsm.rbd"/>
+  <File Type="MMI-FILE" Name="traffic_fsm.mmi"/>
+  <File Type="BIF-FILE" Name="traffic_fsm.bif"/>
+  <File Type="BOOT-BIF-FILE" Name="traffic_fsm_boot.bif"/>
+  <File Type="PL-BIF-FILE" Name="traffic_fsm_pld.bif"/>
+  <File Type="LTX-FILE" Name="traffic_fsm.ltx"/>
+  <File Type="BOOT-LTX-FILE" Name="traffic_fsm_boot.ltx"/>
+  <File Type="PL-LTX-FILE" Name="traffic_fsm_pld.ltx"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="traffic_fsm.ltx"/>
+  <File Type="BITSTR-SYSDEF" Name="traffic_fsm.sysdef"/>
+  <File Type="BG-BGN" Name="traffic_fsm.bgn"/>
+  <File Type="BG-DRC" Name="traffic_fsm.drc"/>
+  <File Type="RDI-RDI" Name="traffic_fsm.vdi"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="ROUTE-RQS" Name="traffic_fsm_routed.rqs"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS" Name="traffic_fsm_postroute_physopted.rqs"/>
+  <File Type="ROUTE-RQS-RPT" Name="route_report_qor_suggestions_0.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-RQS-RPT" Name="postroute_physopt_report_qor_suggestions_0.rpt"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/imports/Downloads/traffic_fsm.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../Downloads/traffic_fsm.v"/>
+        <Attr Name="ImportTime" Val="1790755316"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="traffic_fsm"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1" RelGenDir="$PGENDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/new/t1.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/traffic_fsm.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025">
+      <Desc>Default settings for Implementation.</Desc>
+    </StratHandle>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+</GenRun>
