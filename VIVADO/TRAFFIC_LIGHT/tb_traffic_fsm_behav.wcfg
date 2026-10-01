@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_traffic_fsm_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_traffic_fsm" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="250.001 ns"></ZoomEndTime>
+      <Cursor1Time time="0.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="125"></NameColumnWidth>
+      <ValueColumnWidth column_width="90"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="40" />
+   <wvobject fp_name="/tb_traffic_fsm/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/reqA" type="logic">
+      <obj_property name="ElementShortName">reqA</obj_property>
+      <obj_property name="ObjectShortName">reqA</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/reqB" type="logic">
+      <obj_property name="ElementShortName">reqB</obj_property>
+      <obj_property name="ObjectShortName">reqB</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/reqC" type="logic">
+      <obj_property name="ElementShortName">reqC</obj_property>
+      <obj_property name="ObjectShortName">reqC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/reqA_turn" type="logic">
+      <obj_property name="ElementShortName">reqA_turn</obj_property>
+      <obj_property name="ObjectShortName">reqA_turn</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/reqB_turn" type="logic">
+      <obj_property name="ElementShortName">reqB_turn</obj_property>
+      <obj_property name="ObjectShortName">reqB_turn</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/yield_en" type="logic">
+      <obj_property name="ElementShortName">yield_en</obj_property>
+      <obj_property name="ObjectShortName">yield_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/A_R" type="logic">
+      <obj_property name="ElementShortName">A_R</obj_property>
+      <obj_property name="ObjectShortName">A_R</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/B_R" type="logic">
+      <obj_property name="ElementShortName">B_R</obj_property>
+      <obj_property name="ObjectShortName">B_R</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/A_Y" type="logic">
+      <obj_property name="ElementShortName">A_Y</obj_property>
+      <obj_property name="ObjectShortName">A_Y</obj_property>
+      <obj_property name="CustomSignalColor">#FFD700</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/B_Y" type="logic">
+      <obj_property name="ElementShortName">B_Y</obj_property>
+      <obj_property name="ObjectShortName">B_Y</obj_property>
+      <obj_property name="CustomSignalColor">#FFD700</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/C_Y" type="logic">
+      <obj_property name="ElementShortName">C_Y</obj_property>
+      <obj_property name="ObjectShortName">C_Y</obj_property>
+      <obj_property name="CustomSignalColor">#FFD700</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/A_G1" type="logic">
+      <obj_property name="ElementShortName">A_G1</obj_property>
+      <obj_property name="ObjectShortName">A_G1</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/B_G1" type="logic">
+      <obj_property name="ElementShortName">B_G1</obj_property>
+      <obj_property name="ObjectShortName">B_G1</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/A_G2" type="logic">
+      <obj_property name="ElementShortName">A_G2</obj_property>
+      <obj_property name="ObjectShortName">A_G2</obj_property>
+      <obj_property name="CustomSignalColor">#00FF7F</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/B_G2" type="logic">
+      <obj_property name="ElementShortName">B_G2</obj_property>
+      <obj_property name="ObjectShortName">B_G2</obj_property>
+      <obj_property name="CustomSignalColor">#00FF7F</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/C_R" type="logic">
+      <obj_property name="ElementShortName">C_R</obj_property>
+      <obj_property name="ObjectShortName">C_R</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/C_G" type="logic">
+      <obj_property name="ElementShortName">C_G</obj_property>
+      <obj_property name="ObjectShortName">C_G</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/B_free_left" type="logic">
+      <obj_property name="ElementShortName">B_free_left</obj_property>
+      <obj_property name="ObjectShortName">B_free_left</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/C_free_left" type="logic">
+      <obj_property name="ElementShortName">C_free_left</obj_property>
+      <obj_property name="ObjectShortName">C_free_left</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/errors" type="array">
+      <obj_property name="ElementShortName">errors[31:0]</obj_property>
+      <obj_property name="ObjectShortName">errors[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/chk_en" type="logic">
+      <obj_property name="ElementShortName">chk_en</obj_property>
+      <obj_property name="ObjectShortName">chk_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/legal" type="logic">
+      <obj_property name="ElementShortName">legal</obj_property>
+      <obj_property name="ObjectShortName">legal</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/prev" type="array">
+      <obj_property name="ElementShortName">prev[3:0]</obj_property>
+      <obj_property name="ObjectShortName">prev[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/cur" type="array">
+      <obj_property name="ElementShortName">cur[3:0]</obj_property>
+      <obj_property name="ObjectShortName">cur[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/dwell" type="array">
+      <obj_property name="ElementShortName">dwell[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dwell[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/skip" type="logic">
+      <obj_property name="ElementShortName">skip</obj_property>
+      <obj_property name="ObjectShortName">skip</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/ok" type="logic">
+      <obj_property name="ElementShortName">ok</obj_property>
+      <obj_property name="ObjectShortName">ok</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/green_count" type="array">
+      <obj_property name="ElementShortName">green_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">green_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/last_green" type="array">
+      <obj_property name="ElementShortName">last_green[3:0]</obj_property>
+      <obj_property name="ObjectShortName">last_green[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/served" type="array">
+      <obj_property name="ElementShortName">served[1:6][31:0]</obj_property>
+      <obj_property name="ObjectShortName">served[1:6][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/seen" type="array">
+      <obj_property name="ElementShortName">seen[7:0]</obj_property>
+      <obj_property name="ObjectShortName">seen[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/k" type="array">
+      <obj_property name="ElementShortName">k[31:0]</obj_property>
+      <obj_property name="ObjectShortName">k[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/i" type="array">
+      <obj_property name="ElementShortName">i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/TG1" type="array">
+      <obj_property name="ElementShortName">TG1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">TG1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/TG2" type="array">
+      <obj_property name="ElementShortName">TG2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">TG2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/TGC" type="array">
+      <obj_property name="ElementShortName">TGC[31:0]</obj_property>
+      <obj_property name="ObjectShortName">TGC[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/TAMB" type="array">
+      <obj_property name="ElementShortName">TAMB[31:0]</obj_property>
+      <obj_property name="ObjectShortName">TAMB[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_traffic_fsm/TCLR" type="array">
+      <obj_property name="ElementShortName">TCLR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">TCLR[31:0]</obj_property>
+   </wvobject>
+</wave_config>
