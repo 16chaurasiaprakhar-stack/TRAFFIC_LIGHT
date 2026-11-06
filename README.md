@@ -334,7 +334,7 @@ verilator --lint-only -Wall traffic_fsm.v
 * **Gate Mapping:** Mapped to standard D-flip-flops, AOI/OAI cells, NAND/NOR gates, and multiplexers with zero unmapped logical primitives.
 
 ---
-
+ 
 ## 12. Comparative Efficiency Analysis
 
 | Evaluation Metric | Conventional Fixed Timer | This Adaptive FSM Controller | Gain / Improvement |
