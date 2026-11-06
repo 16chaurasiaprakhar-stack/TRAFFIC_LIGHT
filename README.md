@@ -56,8 +56,8 @@ The design controls a **T-Junction** consisting of three arms:
 * **Signal C (South Arm):** Vehicles travel **South $\to$ North** (the stem of the T). There is **no continuing North road**, so Approach C has no straight-through movement.
 
 ```
-                                  NORTH (No Road)
-                               =====================
+                                        NORTH 
+                               ======================
                                  |                 |
      Approach A (WEST Arm)       |   INTERSECTION  |       Approach B (EAST Arm)
      --------------------------> |       BOX       | <--------------------------
