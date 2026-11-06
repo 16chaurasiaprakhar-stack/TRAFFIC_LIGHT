@@ -8,7 +8,7 @@
 [![ASIC-Target](https://img.shields.io/badge/ASIC_PDK-OSU_0.18µm_StdCells-yellow.svg)](https://vlsiarch.ecen.okstate.edu/)
 [![Status](https://img.shields.io/badge/Verification-100%25_Passing-brightgreen.svg)]()
 
-A high-performance, synthesizable **Intelligent Multi-Phase Traffic Light Controller** implemented in Verilog. Designed around a deterministic, parameterized **8-Phase Moore Finite State Machine (FSM)**, the controller features dynamic **Round-Robin demand arbitration**, concurrent non-conflicting green allocations, protected turning phases, slip-lane yield management, and fail-safe all-red clearance intervals.
+A high-performance, synthesizable **Intelligent T-Junction Traffic Light Controller** implemented in Verilog. Designed around a mathematically rigorous, deterministic **8-Phase Moore Finite State Machine (FSM)**, the controller features dynamic **Round-Robin demand arbitration**, concurrent non-conflicting green allocations, protected turning/U-turn phases, slip-lane yield management, and fail-safe all-red clearance intervals.
 
 Validated across both **Commercial FPGA deployment flows (AMD Vivado 2025.2 on Artix-7 `xc7a35tcpg236-1`)** and **Open-Source ASIC/Simulation toolchains (Yosys 0.18µm standard cell synthesis, Verilator, Icarus Verilog, and GTKWave)**.
 
@@ -16,72 +16,83 @@ Validated across both **Commercial FPGA deployment flows (AMD Vivado 2025.2 on A
 
 ## 📌 Table of Contents
 - [1. Societal Need & Problem Statement](#1-societal-need--problem-statement)
-- [2. Intersection Geometry & Lane Allocation](#2-intersection-geometry--lane-allocation)
+- [2. T-Junction Geometry & Permitted Vehicle Movements](#2-t-junction-geometry--permitted-vehicle-movements)
 - [3. System Architecture & FSM Design](#3-system-architecture--fsm-design)
 - [4. Dynamic Round-Robin Demand Arbitration](#4-dynamic-round-robin-demand-arbitration)
-- [5. Hardware Safety Invariants & Fail-Safe Architecture](#5-hardware-safety-invariants--fail-safe-architecture)
-- [6. Verification Suite & Self-Checking Testbench](#6-verification-suite--self-checking-testbench)
-- [7. Dual EDA Toolchain Strategy](#7-dual-eda-toolchain-strategy)
-- [8. Repository Structure](#8-repository-structure)
-- [9. Quick Start & Simulation Guide](#9-quick-start--simulation-guide)
-- [10. Synthesis & Physical Implementation Results](#10-synthesis--physical-implementation-results)
-- [11. Comparative Efficiency Analysis](#11-comparative-efficiency-analysis)
-- [12. Future Scope](#12-future-scope)
+- [5. Formal Compatibility & Transition Matrix](#5-formal-compatibility--transition-matrix)
+- [6. Hardware Safety Invariants & Fail-Safe Architecture](#6-hardware-safety-invariants--fail-safe-architecture)
+- [7. Verification Suite & Self-Checking Testbench (V1–V10)](#7-verification-suite--self-checking-testbench-v1v10)
+- [8. Dual EDA Toolchain Strategy](#8-dual-eda-toolchain-strategy)
+- [9. Repository Structure](#9-repository-structure)
+- [10. Quick Start & Simulation Guide](#10-quick-start--simulation-guide)
+- [11. Synthesis & Physical Implementation Results](#11-synthesis--physical-implementation-results)
+- [12. Comparative Efficiency Analysis](#12-comparative-efficiency-analysis)
+- [13. Future Scope](#13-future-scope)
 
 ---
 
 ## 1. Societal Need & Problem Statement
 
-Conventional urban traffic signals typically function on rigid, pre-programmed timers that cycle through fixed green and red durations regardless of real-time conditions. This creates substantial societal and economic issues:
+Conventional urban traffic signals typically function on rigid, pre-programmed timers that cycle through fixed green and red durations regardless of real-time vehicular density. This creates substantial societal and economic issues:
 
-* **Idle Fuel Waste & Carbon Emissions:** Commuters frequently sit waiting at red lights on completely vacant cross-streets, burning fuel and releasing metric tons of excess $CO_2$, particulate matter, and $NO_x$ annually.
-* **Economic Inefficiency:** Traffic congestion wastes millions of productive workforce hours daily and increases emergency response times for ambulances, fire engines, and police.
-* **Collision Hazards:** Conventional intersections without dedicated turning phases force drivers into risky unprotected turns across high-speed oncoming traffic, causing severe T-bone collisions.
+* **Idle Fuel Waste & Carbon Footprint:** Commuters frequently sit waiting at red lights on completely vacant cross-streets, burning fuel and releasing metric tons of excess $CO_2$, particulate matter, and $NO_x$ annually.
+* **Economic Inefficiency:** Traffic congestion wastes millions of productive workforce hours daily and severely impedes emergency response times for ambulances, fire engines, and police.
+* **T-Junction Collision Hazards:** Intersections without dedicated, protected turn phases force drivers into risky turns across high-speed oncoming corridors, causing severe T-bone collisions.
 
-### How This Project Solves the Problem:
-1. **Demand-Responsive Intelligence:** Loop detectors, radar, or vision sensors trigger active request lines (`reqA`, `reqB`, `reqC`, `reqA_turn`, `reqB_turn`). The FSM serves active lanes immediately and skips empty approaches.
-2. **Concurrent Green Utilization:** Where lane trajectories do not cross (e.g., Phase `P3`), vehicles on opposite approaches (`Approach A` and `Approach B`) move simultaneously, effectively doubling intersection throughput.
-3. **Protected Turning Windows:** Phases `P5` and `P6` grant dedicated, protected green arrows for turning/U-turn maneuvers while stopping oncoming flows.
-4. **Permissive Free-Left Slip Lanes:** Under `yield_en`, continuous right/left slip lanes operate safely without interrupting main traffic corridors.
-5. **Silicon Reliability:** Implemented as a hardware-level RTL engine in synthesizable Verilog, eliminating software latency, operating system crashes, and microcontroller lockups.
+### How This Controller Solves the Problem:
+1. **Demand-Responsive Intelligence:** Inductive loop detectors, radar, or vision sensors trigger active request lines (`reqA`, `reqB`, `reqC`, `reqA_turn`, `reqB_turn`). The FSM immediately services lanes with waiting traffic and skips vacant approaches.
+2. **Concurrent Green Throughput:** Where vehicle trajectories do not cross (Phase `P3`), vehicles on opposing approaches (`Approach A` and `Approach B`) move simultaneously, doubling arterial capacity.
+3. **Protected Turning & U-Turn Windows:** Phases `P5` (`A_G2`) and `P6` (`B_G2`) provide dedicated, protected green signals for turns and U-turns while holding all conflicting movements at red.
+4. **Yield-Enforced Free-Left Slip Lanes:** Under `yield_en`, continuous slip lanes (`B_free_left`, `C_free_left`) improve junction discharge without compromising crossing safety.
+5. **Fail-Safe Hardware Implementation:** Built as a pure hardware-level RTL engine in synthesizable Verilog, eliminating software latency, operating system crashes, and microcontroller lockups.
 
 ---
 
-## 2. Intersection Geometry & Lane Allocation
+## 2. T-Junction Geometry & Permitted Vehicle Movements
 
-The controller regulates a busy multi-lane 3-way / T-junction with dedicated through lanes, turn pockets, and yield-controlled slip roads:
+The design controls a **T-Junction** consisting of three arms:
+* **Signal A (West Arm):** Vehicles travel **West $\to$ East** along the main continuous corridor.
+* **Signal B (East Arm):** Vehicles travel **East $\to$ West** along the main continuous corridor.
+* **Signal C (South Arm):** Vehicles travel **South $\to$ North** (the stem of the T). There is **no continuing North road**, so Approach C has no straight-through movement.
 
 ```
-                                |   Approach C   |
-                                |   (Cross Road) |
-                                |    [C_R/Y/G]   |
-                                |  Slip: C_free  |
-                                |       |        |
-                                |       v        |
-     ___________________________|                |___________________________
-                                      <--- B_free
-      Approach A (Main Road West)                     Approach B (Main Road East)
-      -------------------------->                    <--------------------------
-      Signals: [A_R, A_Y, A_G1, A_G2]                Signals: [B_R, B_Y, B_G1, B_G2]
-      Requests: reqA, reqA_turn                      Requests: reqB, reqB_turn
-     ___________________________                  ___________________________
-                                |       ^        |
-                                |       |        |
-                                |                |
+                                  NORTH (No Road)
+                               =====================
+                                 |                 |
+     Approach A (WEST Arm)       |   INTERSECTION  |       Approach B (EAST Arm)
+     --------------------------> |       BOX       | <--------------------------
+     Vehicles: West -> East      |                 | Vehicles: East -> West
+     Signals:  [A_R,A_Y,A_G1,A_G2]               | Signals:  [B_R,B_Y,B_G1,B_G2]
+     Requests: reqA, reqA_turn   |                 | Requests: reqB, reqB_turn
+     ____________________________|                 |____________________________
+                                 |  <--- B_free    |
+                                 |                 |
+                                 |   Approach C    |
+                                 |   (SOUTH Arm)   |
+                                 |   [C_R, C_Y, C_G]
+                                 |   reqC, C_free  |
+                                 |        ^        |
+                                 |        |        |
+                                 |  Vehicles: S->N |
 ```
 
-### Signal Allocation Matrix:
-| Approach | Straight Green | Protected Turn Green | Amber Warning | Stop Red | Slip Road Free Turn |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Approach A** | `A_G1` | `A_G2` | `A_Y` | `A_R` | — |
-| **Approach B** | `B_G1` | `B_G2` | `B_Y` | `B_R` | `B_free_left` (when `yield_en=1`) |
-| **Approach C** | `C_G`  | —      | `C_Y` | `C_R` | `C_free_left` (when `yield_en=1`) |
+### Defined Vehicle Movements (Per Specification):
+| Signal Arm | Vehicle Travel | Movement Type | Movement Designation | Permitted In Phase |
+| :---: | :---: | :--- | :--- | :---: |
+| **A** | West $\to$ East | Straight toward East/B | `A-G1` | `P1`, `P3`, `P5` |
+| **A** | West $\to$ East | Right turn toward South/C | `A-G2-Right` | `P5` (Protected) |
+| **A** | West $\to$ East | U-turn back toward West | `A-G2-U` | `P5` (Protected) |
+| **B** | East $\to$ West | Straight toward West/A | `B-G1` | `P2`, `P3`, `P6` |
+| **B** | East $\to$ West | Left turn toward South/C | `B-Free-Left` | `P6` (Yield-controlled) |
+| **B** | East $\to$ West | U-turn back toward East | `B-G2-U` | `P6` (Protected) |
+| **C** | South $\to$ North | Right turn toward East/B | `C-Green-Right` | `P4` (Protected `C_G`) |
+| **C** | South $\to$ North | Left turn toward West/A | `C-Free-Left` | `P4` (Yield-controlled) |
 
 ---
 
 ## 3. System Architecture & FSM Design
 
-The controller is structured as an **8-State Moore Machine** (`P0` through `P7`). State transitions occur strictly upon timer expiration (`t_done`), routed via a dynamic round-robin scheduler.
+The controller is implemented as an **8-State Moore Finite State Machine** (`P0` through `P7`). State transitions occur strictly upon timer countdown completion (`t_done`), routed via a dynamic round-robin scheduler.
 
 ```
        +-------------------------------------------------------------+
@@ -100,49 +111,104 @@ The controller is structured as an **8-State Moore Machine** (`P0` through `P7`)
                                   +-------------------+
 ```
 
-### Complete State Dictionary:
-| State | Name | Description | Output Signals | Duration Param | Default (Cycles) |
-| :---: | :---: | :--- | :--- | :---: | :---: |
-| **`P0`** | `CLEAR` | All-Red Clearance Interval | `A_R=1, B_R=1, C_R=1` | `T_CLR` | 2 |
-| **`P1`** | `A_THRU` | Approach A Straight Through | `A_G1=1, B_R=1, C_R=1` | `T_G1` | 10 |
-| **`P2`** | `B_THRU` | Approach B Straight Through | `A_R=1, B_G1=1, C_R=1` | `T_G1` | 10 |
-| **`P3`** | `DUAL_AB` | Concurrent A & B Straight | `A_G1=1, B_G1=1, C_R=1` | `T_G1` | 10 |
-| **`P4`** | `C_THRU` | Approach C Green + Free Turn | `A_R=1, B_R=1, C_G=1, C_free_left=yield_en` | `T_GC` | 10 |
-| **`P5`** | `A_TURN` | Approach A Protected Turn | `A_G2=1, B_R=1, C_R=1` | `T_G2` | 12 |
-| **`P6`** | `B_TURN` | Approach B Protected Turn | `A_R=1, B_G2=1, C_R=1, B_free_left=yield_en` | `T_G2` | 12 |
-| **`P7`** | `AMBER` | Dynamic Yellow Transition | Mirrors the preceding green phase (`last`) | `T_AMB` | 3 |
+### Complete State Dictionary & Timing:
+| State | Name | Code | Output Lamp Vectors | Permitted Movements | Timer Parameter | Default Ticks |
+| :---: | :---: | :---: | :--- | :--- | :---: | :---: |
+| **`P0`** | `ALL_RED` | `0000` | `A_R=1, B_R=1, C_R=1` | All-red clearance; no protected movements | `T_CLR` | 2 |
+| **`P1`** | `A_G1` | `0001` | `A_G1=1, B_R=1, C_R=1` | Approach A straight East | `T_G1` | 10 |
+| **`P2`** | `B_G1` | `0010` | `A_R=1, B_G1=1, C_R=1` | Approach B straight West | `T_G1` | 10 |
+| **`P3`** | `AB_G1` | `0011` | `A_G1=1, B_G1=1, C_R=1` | Parallel non-conflicting A & B straight | `T_G1` | 10 |
+| **`P4`** | `C_GREEN` | `0100` | `A_R=1, B_R=1, C_G=1` | C right to East; C left if `yield_en=1` | `T_GC` | 10 |
+| **`P5`** | `A_G2` | `0101` | `A_G2=1, B_R=1, C_R=1` | A straight + protected right to C + U-turn | `T_G2` | 12 |
+| **`P6`** | `B_G2` | `0110` | `A_R=1, B_G2=1, C_R=1` | B straight + U-turn; B left if `yield_en=1` | `T_G2` | 12 |
+| **`P7`** | `AMBER` | `0111` | Mirrors preceding green | Transition amber warning before all-red | `T_AMB` | 3 |
+
+### 11-Bit Verilog Output Vector `{A_R, A_Y, A_G1, A_G2, B_R, B_Y, B_G1, B_G2, C_R, C_Y, C_G}`:
+```text
+P0:                 1000 1000 100
+P1:                 0010 1000 100
+P2:                 1000 0010 100
+P3:                 0010 0010 100
+P4:                 1000 1000 001
+P5:                 0001 1000 100
+P6:                 1000 0001 100
+P7 (last = P1/P5):  0100 1000 100   (Row T1)
+P7 (last = P2/P6):  1000 0100 100   (Row T2)
+P7 (last = P3):     0100 0100 100   (Row T3)
+P7 (last = P4):     1000 1000 010   (Row T4)
+```
 
 ---
 
 ## 4. Dynamic Round-Robin Demand Arbitration
 
-Traffic demands are encoded into a 6-bit request bus:
+Vehicular sensors map into a 6-bit request bus $\mathbf{rq}[6:1]$:
 $$\mathbf{rq}[6:1] = \Big\{\text{reqB\_turn},\; \text{reqA\_turn},\; \text{reqC},\; (\text{reqA} \wedge \text{reqB}),\; (\text{reqB} \wedge \neg\text{reqA}),\; (\text{reqA} \wedge \neg\text{reqB})\Big\}$$
 
-The selection function `pick(last, rq)` prevents starvation through circular scanning:
-1. **Arbitration Loop:** Scans from index `(last + 1)` mod 6 through `last`.
-2. **First-Match Serving:** The first phase with an asserted request bit is granted green.
-3. **Fairness Guarantee:** Because the scan starts *after* the most recently served phase (`last`), heavy traffic on one approach cannot monopolize the intersection.
-4. **Idle Fallback:** When all request lines are deasserted (`rq == 6'b000000`), the scheduler gracefully falls back to circular round-robin sequencing (`P1 -> P2 -> P3 -> P4 -> P5 -> P6 -> P1`).
+| Request Bit | Trigger Logic | Physical Meaning | Target Phase |
+| :---: | :--- | :--- | :---: |
+| **`rq[1]`** | `reqA & ~reqB` | Only Approach A straight is waiting | `P1` |
+| **`rq[2]`** | `reqB & ~reqA` | Only Approach B straight is waiting | `P2` |
+| **`rq[3]`** | `reqA & reqB` | Both straight flows waiting; serve concurrently | `P3` |
+| **`rq[4]`** | `reqC` | Approach C vehicle is waiting | `P4` |
+| **`rq[5]`** | `reqA_turn` | Approach A protected turn/U-turn waiting | `P5` |
+| **`rq[6]`** | `reqB_turn` | Approach B protected turn/U-turn waiting | `P6` |
+
+### Round-Robin Priority Scan & Fallback:
+To prevent starvation, `pick(last, rq)` scans starting at index `(last + 1)` mod 6:
+| Last Served Phase | Scan Evaluation Order (First Active Bit Wins) | Fixed Fallback Order (If `rq == 0`) |
+| :---: | :--- | :---: |
+| **`P1`** | $P_2 \to P_3 \to P_4 \to P_5 \to P_6 \to P_1$ | `P2` |
+| **`P2`** | $P_3 \to P_4 \to P_5 \to P_6 \to P_1 \to P_2$ | `P3` |
+| **`P3`** | $P_4 \to P_5 \to P_6 \to P_1 \to P_2 \to P_3$ | `P4` |
+| **`P4`** | $P_5 \to P_6 \to P_1 \to P_2 \to P_3 \to P_4$ | `P5` |
+| **`P5`** | $P_6 \to P_1 \to P_2 \to P_3 \to P_4 \to P_5$ | `P6` |
+| **`P6`** *(Reset State)* | $P_1 \to P_2 \to P_3 \to P_4 \to P_5 \to P_6$ | `P1` |
 
 ---
 
-## 5. Hardware Safety Invariants & Fail-Safe Architecture
+## 5. Formal Compatibility & Transition Matrix
 
-To satisfy fail-safe functional safety standards, the RTL incorporates strict hardware protection:
+To guarantee mathematical safety, active lamp combinations are restricted to the verified compatibility matrix. All other states are hardware-unreachable.
+
+### Approved Signal Combinations:
+| A State | B State | C State | Status | Engineering Rationale |
+| :---: | :---: | :---: | :---: | :--- |
+| **R** | **R** | **R** | **ALLOWED** | All-red clearance (`P0`) |
+| **G1** | **R** | **R** | **ALLOWED** | Approach A straight only (`P1`) |
+| **R** | **G1** | **R** | **ALLOWED** | Approach B straight only (`P2`) |
+| **G1** | **G1** | **R** | **ALLOWED** | Opposing non-conflicting straight flow (`P3`) |
+| **R** | **R** | **G**  | **ALLOWED** | Approach C protected phase (`P4`) |
+| **G2** | **R** | **R** | **ALLOWED** | Approach A exclusive turning/U-turn (`P5`) |
+| **R** | **G2** | **R** | **ALLOWED** | Approach B exclusive turning/U-turn (`P6`) |
+| **Y** | **R** | **R** | **ALLOWED (T1)** | Transition amber after $P_1$ or $P_5$ (`P7`) |
+| **R** | **Y** | **R** | **ALLOWED (T2)** | Transition amber after $P_2$ or $P_6$ (`P7`) |
+| **Y** | **Y** | **R** | **ALLOWED (T3)** | Transition amber after $P_3$ (`P7`) |
+| **R** | **R** | **Y** | **ALLOWED (T4)** | Transition amber after $P_4$ (`P7`) |
+
+### Explicitly Prohibited Combinations (Hardware-Enforced Zero Reachability):
+* **`G1 R G` / `R G1 G` / `G1 G1 G`:** Prohibited. Cross road C cannot merge into active straight corridors.
+* **`G2 G1 R` / `G1 G2 R` / `G2 G2 R`:** Prohibited. Turning Green-2 phases must be strictly exclusive.
+* **`G2 R G` / `R G2 G` / `G2 G2 G`:** Prohibited. Severe trajectory intersection; strictly blocked.
+
+---
+
+## 6. Hardware Safety Invariants & Fail-Safe Architecture
+
+To satisfy functional safety (ISO 26262 principles), the RTL incorporates four layers of hardware defense:
 
 ### 1. Inverted Combinational Stop Red
-Red outputs are not stored in flip-flops. They are combinational negations of the permissive outputs:
+Red outputs are not registered in flip-flops. They are combinational negations of the permissive outputs:
 ```verilog
 A_R = ~(A_Y | A_G1 | A_G2);
 B_R = ~(B_Y | B_G1 | B_G2);
 C_R = ~(C_Y | C_G);
 ```
-*Effect:* Any hardware glitch, uninitialized state, or system reset automatically drives all traffic heads to solid **RED**.
+*Effect:* Any hardware glitch, unmapped state, or clock stop automatically forces all traffic heads to solid **RED**.
 
-### 2. Strict One-Hot Illumination
-On each approach, exactly one light can be energized at any given clock cycle:
-$$(A_R + A_Y + A_{G1} + A_{G2} = 1) \quad\wedge\quad (B_R + B_Y + B_{G1} + B_{G2} = 1) \quad\wedge\quad (C_R + C_Y + C_G = 1)$$
+### 2. Strict One-Hot Lamp Activation
+On every signal arm, exactly one light is illuminated at any given clock cycle:
+$$(A_R + A_Y + A_{G1} + A_{G2} = 1) \;\wedge\; (B_R + B_Y + B_{G1} + B_{G2} = 1) \;\wedge\; (C_R + C_Y + C_G = 1)$$
 
 ### 3. Mutual Exclusivity Guarantees
 * Approach C (`C_G`) can never turn green unless both Approach A and B are locked in red (`A_R == 1 && B_R == 1`).
@@ -154,26 +220,26 @@ $$\text{Phase } k \;\longrightarrow\; \text{P7 (Amber)} \;\longrightarrow\; \tex
 
 ---
 
-## 6. Verification Suite & Self-Checking Testbench
+## 7. Verification Suite & Self-Checking Testbench (V1–V10)
 
-The self-checking testbench (`tb_traffic_fsm.v`) implements comprehensive automated assertions:
+The self-checking testbench (`tb_traffic_fsm.v`) validates the design against the 10 formal specification checkpoints:
 
-| Invariant | Description | Verification Method |
-| :---: | :--- | :--- |
-| **`V1`** | Legal Lamp Combinations | Asserts active lights match the safety truth table at every clock edge. |
-| **`V2`** | Sequence & Dwell Accuracy | Tracks state transitions and asserts clock dwell matches exact parameter values. |
-| **`V3`** | Mid-Phase Reset Recovery | Forces `rst_n = 0` mid-cycle; verifies immediate fallback to `P0` with all lamps red. |
-| **`V4`** | Fault Injection & Recovery | Injects illegal state codes (`4'd8` to `4'd15`); confirms 1-cycle recovery to `P0`. |
-| **`V5`** | Green Concurrency Exclusivity | Verifies `A_G1` and `B_G1` can only occur together during Phase `P3`. |
-| **`V6`** | Cross-Traffic Isolation | Asserts `C_G` never overlaps with any green on Approach A or B. |
-| **`V7`** | Protected Turn Exclusivity | Asserts `A_G2` and `B_G2` never overlap with conflicting movements. |
-| **`V8`** | One-Hot Lamp Compliance | Confirms sum of active lamps per approach strictly equals 1. |
-| **`V9`** | All-Red Clearance Integrity | Asserts `A_R=1, B_R=1, C_R=1` during state `P0`. |
-| **`V10`**| Pseudo-Random Stress Test | 4,000 cycles of randomized inputs; verifies 100% state & phase coverage without deadlock. |
+| Invariant | Requirement | How It Is Verified | Pass Condition |
+| :---: | :--- | :--- | :--- |
+| **`V1`** | No Prohibited Matrix Row Generated | Assertions on `{A,B,C}` lamp state every clock | Tuple is strictly in legal set |
+| **`V2`** | Amber & All-Red Between Phases | Monitor state sequence and dwell timers | Every $P_k$ is followed by $P_7 \to P_0$; dwell matches parameters |
+| **`V3`** | Reset Forces $P_0$ | Mid-phase asynchronous reset assertion | Immediate transition to $P_0$ with all lamps red |
+| **`V4`** | Illegal-State Recovery | Verilog `force` to state codes `4'd8`..`4'd15` | Single-cycle recovery to $P_0$ with all lamps red |
+| **`V5`** | $A\_G1$ and $B\_G1$ Together Only in $P_3$ | Assert `(A_G1 && B_G1) => state == P3` | Never violated |
+| **`V6`** | $C\_GREEN$ Never Overlaps Others | Assert `C_G => (A_R && B_R)` | Never violated |
+| **`V7`** | Green-2 Turning Exclusivity | Assert `(A_G2 || B_G2) => other signals red` | Never violated |
+| **`V8`** | One Active Lamp Per Signal | Assert `onehot(A_R, A_Y, A_G1, A_G2)` etc. | True on every clock cycle |
+| **`V9`** | $P_0$ All-Red Integrity | Assert `state == P0 => (A_R && B_R && C_R)` | True on every clock cycle |
+| **`V10`**| GTKWave Waveform & Stress Test | 4,000 randomized stimulus cycles | 100% state coverage ($P_0$–$P_7$) & 0 errors |
 
 ---
 
-## 7. Dual EDA Toolchain Strategy
+## 8. Dual EDA Toolchain Strategy
 
 ```
                            +--------------------+
@@ -196,14 +262,14 @@ Simulation        (Artix-7 xc7a35t)           Waveforms (VCD)    Synthesis
 
 ---
 
-## 8. Repository Structure
+## 9. Repository Structure
 
 ```
 ├── traffic_fsm.v                  # Top-level synthesizable RTL controller
 ├── tb_traffic_fsm.v               # Self-checking formal verification testbench
-├── README.md                      # Main project documentation
+├── README.md                      # Primary repository documentation
 │
-├── VIVADO/                        # AMD Vivado Commercial Flow
+├── VIVADO/                        # AMD Vivado Commercial FPGA Flow
 │   ├── README.md                  # Vivado walkthrough and run guide
 │   ├── TRAFFIC_LIGHT/             # Vivado Project (.xpr, sources, simulation configs)
 │   │   ├── TRAFFIX__NEW_LIGHT.xpr
@@ -226,7 +292,7 @@ Simulation        (Artix-7 xc7a35t)           Waveforms (VCD)    Synthesis
 
 ---
 
-## 9. Quick Start & Simulation Guide
+## 10. Quick Start & Simulation Guide
 
 ### Open-Source Flow (Icarus Verilog + GTKWave)
 ```bash
@@ -254,7 +320,7 @@ verilator --lint-only -Wall traffic_fsm.v
 
 ---
 
-## 10. Synthesis & Physical Implementation Results
+## 11. Synthesis & Physical Implementation Results
 
 ### FPGA Implementation (AMD Vivado 2025.2):
 * **Target Part:** Xilinx Artix-7 `xc7a35tcpg236-1`
@@ -269,7 +335,7 @@ verilator --lint-only -Wall traffic_fsm.v
 
 ---
 
-## 11. Comparative Efficiency Analysis
+## 12. Comparative Efficiency Analysis
 
 | Evaluation Metric | Conventional Fixed Timer | This Adaptive FSM Controller | Gain / Improvement |
 | :--- | :--- | :--- | :--- |
@@ -281,7 +347,7 @@ verilator --lint-only -Wall traffic_fsm.v
 
 ---
 
-## 12. Future Scope
+## 13. Future Scope
 * **Emergency Vehicle Preemption (EVP):** High-priority strobe/siren sensor inputs to instantly clear right-of-way for emergency vehicles.
 * **Pedestrian Crossing Integration:** Push-button call boxes with visual countdown displays.
 * **V2X Telemetry Support:** Direct vehicle-to-infrastructure communication over CAN-bus or Ethernet for autonomous vehicle coordination.
