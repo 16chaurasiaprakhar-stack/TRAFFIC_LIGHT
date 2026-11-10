@@ -340,7 +340,7 @@ verilator --lint-only -Wall traffic_fsm.v
 | Evaluation Metric | Conventional Fixed Timer | This Adaptive FSM Controller | Gain / Improvement |
 | :--- | :--- | :--- | :--- |
 | **Response to Empty Roads** | Waits full programmed green | Skips empty lanes immediately | **Up to 40% reduction in delay** |
-| **Conflicting Flow Handling** | Sequential single-lane | Concurrent straight flow (`P3`) | **Up to 2x higher throughput** |
+| **Conflicting Flow Handling** | Sequential single-lane | Concurrent straight flow (`P3`) | **Up to 2x higher throughput** | 
 | **Turning Safety** | Unprotected / High accident risk | Protected dedicated phases (`P5`, `P6`) | **Eliminates turn conflict points** |
 | **System Reliability** | Software/Microcontroller OS | Pure hardware RTL state machine | **Zero OS crashes / deterministic latency** |
 | **Fault Recovery** | Unpredictable hang | Single-cycle recovery to all-red `P0` | **Fail-safe guaranteed** |
