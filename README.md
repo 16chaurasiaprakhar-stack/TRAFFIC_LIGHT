@@ -10,7 +10,7 @@
 
 A high-performance, synthesizable **Intelligent T-Junction Traffic Light Controller** implemented in Verilog. Designed around a mathematically rigorous, deterministic **8-Phase Moore Finite State Machine (FSM)**, the controller features dynamic **Round-Robin demand arbitration**, concurrent non-conflicting green allocations, protected turning/U-turn phases, slip-lane yield management, and fail-safe all-red clearance intervals.
 
-Validated across both **Commercial FPGA deployment flows (AMD Vivado 2025.2 on Artix-7 `xc7a35tcpg236-1`)** and **Open-Source ASIC/Simulation toolchains (Yosys 0.18µm standard cell synthesis, Verilator, Icarus Verilog, and GTKWave)**.
+Validated across both **Commercial FPGA deployment flows (AMD Vivado 2025.2 `xc7a35tcpg236-1`)** and **Open-Source ASIC/Simulation toolchains (Yosys 0.18µm standard cell synthesis, Verilator, Icarus Verilog, and GTKWave)**.
 
 ---
 
